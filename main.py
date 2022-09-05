@@ -16,6 +16,7 @@
 
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
+from PySide6 import QtGui
 from gui.uis.windows.main_window.functions_main_window import *
 import sys
 import os

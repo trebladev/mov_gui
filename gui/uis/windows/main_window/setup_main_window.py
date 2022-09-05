@@ -16,6 +16,7 @@
 
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
+from PySide6 import QtGui
 from gui.widgets.py_table_widget.py_table_widget import PyTableWidget
 from . functions_main_window import *
 import sys
@@ -198,6 +199,21 @@ class SetupMainWindow:
         settings = Settings()
         self.settings = settings.items
 
+        # ADD INIT FUNCTION
+        # ///////////////////////////////////////////////////////////////
+
+        # INIT LABEL 2 SHOW GRAPH
+        self.pix = QtGui.QPixmap("noimage.png")
+        size = self.pix.size()
+        self.ui.load_pages.page1_label.setGeometry(0, 0, 584, 574)
+        self.ui.load_pages.page1_label.setScaledContents(True)
+        self.ui.load_pages.page1_label.setPixmap(self.pix)
+
+        self.ui.load_pages.page2_label.setGeometry(0, 0, 584, 574)
+        self.ui.load_pages.page2_label.setScaledContents(True)
+        self.ui.load_pages.page2_label.setPixmap(self.pix)
+
+
         # ADD CUSTOM BUTTON
         self.page1_st_btn = PyPushButton(
             text="开始扫描",
@@ -226,6 +242,7 @@ class SetupMainWindow:
             bg_color_pressed=self.themes["app_color"]["dark_four"],
         )
 
+
         self.page2_st_btn.setMinimumHeight(40)
         self.page2_cp_btn.setMinimumHeight(40)
 
@@ -234,8 +251,13 @@ class SetupMainWindow:
         self.ui.load_pages.page2_btn_layout.addWidget(self.page2_st_btn)
         self.ui.load_pages.page2_btn_layout.addWidget(self.page2_cp_btn)
 
+        # ADD GRAPH FUNCTION
+        # ///////////////////////////////////////////////////////////////
+        def show_graph(label,image_path):
+            self.pix = QtGui.QPixmap(image_path)
+            label.setPixmap(self.pix)
 
-
+        show_graph(self.ui.load_pages.page1_label,"abc-124.jpg")
         # ///////////////////////////////////////////////////////////////
         # END - EXAMPLE CUSTOM WIDGETS
         # ///////////////////////////////////////////////////////////////
