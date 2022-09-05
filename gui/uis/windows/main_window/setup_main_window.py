@@ -21,7 +21,11 @@ from gui.widgets.py_table_widget.py_table_widget import PyTableWidget
 from . functions_main_window import *
 import sys
 import os
+import time
 
+i = 1
+Qlist = []
+slm = QStringListModel()
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
 from qt_core import *
@@ -56,6 +60,7 @@ class SetupMainWindow:
         # ///////////////////////////////////////////////////////////////
         self.ui = UI_MainWindow()
         self.ui.setup_ui(self)
+        self.item_list = []
 
     # ADD LEFT MENUS
     # ///////////////////////////////////////////////////////////////
@@ -242,7 +247,58 @@ class SetupMainWindow:
             bg_color_pressed=self.themes["app_color"]["dark_four"],
         )
 
+        def callback_st_1():
 
+            # self.page1_st_btn.setText("正在扫描")
+            # print("dwwd")
+            # time.sleep(2)
+            # os.system(
+            #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
+            # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
+            # ")
+            # self.page1_st_btn.setText("")
+            # time.sleep(2)
+            # self.page1_st_btn.setText("开始扫描")
+            add_scan_item()
+
+        def callback_cp_1():
+            self.page2_cp_btn.setText("正在对比")
+            # os.system("./movable_object_detection yes")
+            self.page2_cp_btn.setText("开始对比")
+
+        def callback_st_2():
+            self.page2_st_btn.setText("正在扫描")
+            time.sleep(2)
+            # os.system(
+            #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
+            # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
+            # ")
+
+            self.page2_st_btn.setText("开始扫描")
+
+        def add_scan_item():
+            global i
+            global Qlist
+            # print(f'Qlist: {Qlist}')
+            Qlist.append("item " + str(i))
+            i += 1
+            show_scan_list()
+            print(f'add_scan_item Qlist: {Qlist}')
+
+        def show_scan_list():
+
+            # print(Qlist)
+            # print(i)
+
+            self.qList = Qlist
+            slm.setStringList(self.qList)
+            self.ui.load_pages.scan_list.setModel(slm)
+            self.ui.load_pages.page2_list.setModel(slm)
+
+        def list_save():
+            # self.qList = slm.stringList()
+            Qlist = slm.stringList()
+            print(f'Qlist: {Qlist}')
         self.page2_st_btn.setMinimumHeight(40)
         self.page2_cp_btn.setMinimumHeight(40)
 
@@ -251,11 +307,18 @@ class SetupMainWindow:
         self.ui.load_pages.page2_btn_layout.addWidget(self.page2_st_btn)
         self.ui.load_pages.page2_btn_layout.addWidget(self.page2_cp_btn)
 
+        self.page1_st_btn.clicked.connect(callback_st_1)
+        self.page2_cp_btn.clicked.connect(callback_cp_1)
+        self.page2_st_btn.clicked.connect(callback_st_2)
+        slm.dataChanged.connect(list_save)
+
+
         # ADD GRAPH FUNCTION
         # ///////////////////////////////////////////////////////////////
         def show_graph(label,image_path):
             self.pix = QtGui.QPixmap(image_path)
             label.setPixmap(self.pix)
+
 
         # show_graph(self.ui.load_pages.page1_label,"abc-124.jpg")
         # ///////////////////////////////////////////////////////////////

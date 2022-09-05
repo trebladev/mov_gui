@@ -80,10 +80,6 @@ class MainWindow(QMainWindow):
         # open page 1
         if btn.objectName() == "btn_home":
             self.ui.left_menu.select_only_one(btn.objectName())
-            slm=QStringListModel()
-            self.qList = ['Item 1', 'Item 2', 'Item 3', 'Item 4']
-            slm.setStringList(self.qList)
-            self.ui.load_pages.scan_list.setModel(slm)
 
             # load page 1
             MainFunctions.set_page(self,self.ui.load_pages.page_1)
