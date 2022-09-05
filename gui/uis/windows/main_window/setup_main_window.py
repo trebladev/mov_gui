@@ -60,7 +60,7 @@ class SetupMainWindow:
         # ///////////////////////////////////////////////////////////////
         self.ui = UI_MainWindow()
         self.ui.setup_ui(self)
-        self.item_list = []
+        # self.item_list = []
 
     # ADD LEFT MENUS
     # ///////////////////////////////////////////////////////////////
@@ -207,6 +207,9 @@ class SetupMainWindow:
         # ADD INIT FUNCTION
         # ///////////////////////////////////////////////////////////////
 
+        # ADD INIT LIST
+        self.item_list = []
+
         # INIT LABEL 2 SHOW GRAPH
         self.pix = QtGui.QPixmap("noimage.png")
         size = self.pix.size()
@@ -280,7 +283,8 @@ class SetupMainWindow:
             global i
             global Qlist
             # print(f'Qlist: {Qlist}')
-            Qlist.append("item " + str(i))
+            # Qlist.append("item " + str(i))
+            self.item_list.append("item"+str(i))
             i += 1
             show_scan_list()
             print(f'add_scan_item Qlist: {Qlist}')
@@ -290,14 +294,16 @@ class SetupMainWindow:
             # print(Qlist)
             # print(i)
 
-            self.qList = Qlist
-            slm.setStringList(self.qList)
+            # self.qList = Qlist
+            # slm.setStringList(self.qList)
+            slm.setStringList(self.item_list)
             self.ui.load_pages.scan_list.setModel(slm)
             self.ui.load_pages.page2_list.setModel(slm)
 
         def list_save():
             # self.qList = slm.stringList()
-            Qlist = slm.stringList()
+            # Qlist = slm.stringList()
+            self.item_list = slm.stringList()
             print(f'Qlist: {Qlist}')
         self.page2_st_btn.setMinimumHeight(40)
         self.page2_cp_btn.setMinimumHeight(40)
