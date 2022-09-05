@@ -257,7 +257,7 @@ class SetupMainWindow:
             self.pix = QtGui.QPixmap(image_path)
             label.setPixmap(self.pix)
 
-        show_graph(self.ui.load_pages.page1_label,"abc-124.jpg")
+        # show_graph(self.ui.load_pages.page1_label,"abc-124.jpg")
         # ///////////////////////////////////////////////////////////////
         # END - EXAMPLE CUSTOM WIDGETS
         # ///////////////////////////////////////////////////////////////
