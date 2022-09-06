@@ -24,6 +24,6 @@ def get_cover(input_dir, color_format="ppm", depth_format="pgm"):
     max_idx = weight.index(max(weight))
     return color_paths[max_idx]
 if __name__ == '__main__':
-    input_dir = "/home/xuan/ws_test/PyOneDark_Qt_Widgets_Modern_GUI/gui_test_data/scence2_2_move1&rot1_3"
+    input_dir = "/origin_data/scene2_origin"
 
     print(get_cover(input_dir))

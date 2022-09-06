@@ -19,6 +19,7 @@
 from PySide6 import QtGui
 from gui.widgets.py_table_widget.py_table_widget import PyTableWidget
 from . functions_main_window import *
+from tools.findimg import get_cover
 import sys
 import os
 import time
@@ -209,13 +210,16 @@ class SetupMainWindow:
 
         # ADD INIT LIST
         self.item_list = []
+        self.image_path = []
 
         # INIT LABEL 2 SHOW GRAPH
-        self.pix = QtGui.QPixmap("noimage.png")
+        self.pix = QtGui.QPixmap("img/bigscene.png")
         size = self.pix.size()
         self.ui.load_pages.page1_label.setGeometry(0, 0, 584, 574)
         self.ui.load_pages.page1_label.setScaledContents(True)
         self.ui.load_pages.page1_label.setPixmap(self.pix)
+
+        self.pix = QtGui.QPixmap("img/noimage.png")
 
         self.ui.load_pages.page2_label.setGeometry(0, 0, 584, 574)
         self.ui.load_pages.page2_label.setScaledContents(True)
@@ -255,20 +259,24 @@ class SetupMainWindow:
             # self.page1_st_btn.setText("正在扫描")
             # print("dwwd")
             # time.sleep(2)
-            # os.system(
-            #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
-            # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
-            # ")
+            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./scene_origin"+str(i))
             # self.page1_st_btn.setText("")
             # time.sleep(2)
             # self.page1_st_btn.setText("开始扫描")
+            self.image_path.append(get_cover("./scene_origin"+str(i)))
+            show_graph(self.ui.load_pages.page1_label,self.image_path[i-1])
             add_scan_item()
-            # how_graph(self.ui.load_pages.page1_label,"/home/xuan/ws_test/PyOneDark_Qt_Widgets_Modern_GUI/gui_test_data/scence2_2_move1&rot1_3/24766855.ppm")
 
         def callback_cp_1():
-            self.page2_cp_btn.setText("正在对比")
-            # os.system("./movable_object_detection yes")
-            self.page2_cp_btn.setText("开始对比")
+            # self.page2_cp_btn.setText("正在对比")
+            select = self.ui.load_pages.page2_list.selectedIndexes()
+            if(not select):
+                print("not select")
+                msg_box = QMessageBox(QMessageBox.Critical, 'ERROR', 'no scene was selected')
+                msg_box.exec_()
+            else:
+                os.system("./moving_object_detection/movable_object_detection -c ./moving_object_detection/config.json -np /home/iipl/PyOneDark_Qt_Widgets_Modern_GUI/scene_changed/mesh.obj -op /home/iipl/PyOneDark_Qt_Widgets_Modern_GUI/scene_origin"+str(select[0].row()+1)+"/mesh.obj")
+            # self.page2_cp_btn.setText("开始对比")
 
         def callback_st_2():
             self.page2_st_btn.setText("正在扫描")
@@ -277,6 +285,8 @@ class SetupMainWindow:
             #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
             # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
             # ")
+            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./scene_changed")
+
 
             self.page2_st_btn.setText("开始扫描")
 
@@ -310,6 +320,17 @@ class SetupMainWindow:
         def show_graph(label,image_path):
             self.pix = QtGui.QPixmap(image_path)
             label.setPixmap(self.pix)
+
+        def choose_scene_img():
+            # select = self.ui.load_pages.scan_list.selectedItem()
+            select = self.ui.load_pages.scan_list.selectedIndexes()
+            # print(select[0].row())
+            show_graph(self.ui.load_pages.page1_label,self.image_path[select[0].row()])
+
+        def show_origin_img():
+            select = self.ui.load_pages.page2_list.selectedIndexes()
+            show_graph(self.ui.load_pages.page2_label,self.image_path[select[0].row()])
+
             
         self.page2_st_btn.setMinimumHeight(40)
         self.page2_cp_btn.setMinimumHeight(40)
@@ -323,6 +344,10 @@ class SetupMainWindow:
         self.page2_cp_btn.clicked.connect(callback_cp_1)
         self.page2_st_btn.clicked.connect(callback_st_2)
         slm.dataChanged.connect(list_save)
+        self.ui.load_pages.scan_list.clicked.connect(choose_scene_img)
+        self.ui.load_pages.page2_list.clicked.connect(show_origin_img)
+
+
 
 
         # ADD GRAPH FUNCTION
