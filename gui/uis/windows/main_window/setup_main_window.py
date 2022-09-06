@@ -263,6 +263,7 @@ class SetupMainWindow:
             # time.sleep(2)
             # self.page1_st_btn.setText("开始扫描")
             add_scan_item()
+            # how_graph(self.ui.load_pages.page1_label,"/home/xuan/ws_test/PyOneDark_Qt_Widgets_Modern_GUI/gui_test_data/scence2_2_move1&rot1_3/24766855.ppm")
 
         def callback_cp_1():
             self.page2_cp_btn.setText("正在对比")
@@ -271,7 +272,7 @@ class SetupMainWindow:
 
         def callback_st_2():
             self.page2_st_btn.setText("正在扫描")
-            time.sleep(2)
+            # time.sleep(2)
             # os.system(
             #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
             # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
@@ -287,7 +288,7 @@ class SetupMainWindow:
             self.item_list.append("item"+str(i))
             i += 1
             show_scan_list()
-            print(f'add_scan_item Qlist: {Qlist}')
+            print(f'add_scan_item item list: {self.item_list}')
 
         def show_scan_list():
 
@@ -304,7 +305,12 @@ class SetupMainWindow:
             # self.qList = slm.stringList()
             # Qlist = slm.stringList()
             self.item_list = slm.stringList()
-            print(f'Qlist: {Qlist}')
+            print(f'item list: {self.item_list}')
+
+        def show_graph(label,image_path):
+            self.pix = QtGui.QPixmap(image_path)
+            label.setPixmap(self.pix)
+            
         self.page2_st_btn.setMinimumHeight(40)
         self.page2_cp_btn.setMinimumHeight(40)
 
@@ -321,9 +327,7 @@ class SetupMainWindow:
 
         # ADD GRAPH FUNCTION
         # ///////////////////////////////////////////////////////////////
-        def show_graph(label,image_path):
-            self.pix = QtGui.QPixmap(image_path)
-            label.setPixmap(self.pix)
+
 
 
         # show_graph(self.ui.load_pages.page1_label,"abc-124.jpg")
