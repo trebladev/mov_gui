@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagespUMWOT.ui'
+## Form generated from reading UI file 'main_pagesvVdjwr.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.3
 ##
@@ -134,12 +134,17 @@ class Ui_MainPages(object):
 
         self.page2_left = QFrame(self.frame_2)
         self.page2_left.setObjectName(u"page2_left")
-        self.page2_left.setGeometry(QRect(0, 0, 584, 574))
+        self.page2_left.setEnabled(True)
+        self.page2_left.setGeometry(QRect(10, -20, 584, 574))
         self.page2_left.setFrameShape(QFrame.StyledPanel)
         self.page2_left.setFrameShadow(QFrame.Raised)
         self.page2_label = QLabel(self.page2_left)
         self.page2_label.setObjectName(u"page2_label")
         self.page2_label.setGeometry(QRect(270, 260, 63, 20))
+        self.progressBar = QProgressBar(self.page2_left)
+        self.progressBar.setObjectName(u"progressBar")
+        self.progressBar.setGeometry(QRect(60, 260, 491, 23))
+        self.progressBar.setValue(24)
 
         self.page_2_layout.addWidget(self.frame_2)
 
@@ -158,7 +163,7 @@ class Ui_MainPages(object):
 
         self.retranslateUi(MainPages)
 
-        self.pages.setCurrentIndex(0)
+        self.pages.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainPages)

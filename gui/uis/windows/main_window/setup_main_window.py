@@ -87,18 +87,6 @@ class SetupMainWindow:
      # ADD TITLE BAR MENUS
     # ///////////////////////////////////////////////////////////////
     add_title_bar_menus = [
-        {
-            "btn_icon" : "icon_search.svg",
-            "btn_id" : "btn_search",
-            "btn_tooltip" : "Search",
-            "is_active" : False
-        },
-        {
-            "btn_icon" : "icon_settings.svg",
-            "btn_id" : "btn_top_settings",
-            "btn_tooltip" : "Top settings",
-            "is_active" : False
-        }
     ]
 
     # SETUP CUSTOM BTNs OF CUSTOM WIDGETS
@@ -208,9 +196,13 @@ class SetupMainWindow:
         # ADD INIT FUNCTION
         # ///////////////////////////////////////////////////////////////
 
+        # SET PROGRESS
+        self.ui.load_pages.progressBar.setVisible(False)
+        self.ui.load_pages.progressBar.setValue(0)
         # ADD INIT LIST
         self.item_list = []
         self.image_path = []
+
 
         # INIT LABEL 2 SHOW GRAPH
         self.pix = QtGui.QPixmap("img/bigscene.png")
@@ -224,7 +216,6 @@ class SetupMainWindow:
         self.ui.load_pages.page2_label.setGeometry(0, 0, 584, 574)
         self.ui.load_pages.page2_label.setScaledContents(True)
         self.ui.load_pages.page2_label.setPixmap(self.pix)
-
 
         # ADD CUSTOM BUTTON
         self.page1_st_btn = PyPushButton(
