@@ -21,6 +21,7 @@ from gui.uis.windows.main_window.functions_main_window import *
 import sys
 import os
 
+from gui.uis.windows.main_window.setup_main_window import slm
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
 from qt_core import *
@@ -89,6 +90,8 @@ class MainWindow(QMainWindow):
             self.ui.left_menu.select_only_one(btn.objectName())
             # load page 2
             MainFunctions.set_page(self, self.ui.load_pages.page_2)
+
+
 
         # TITLE BAR MENU
         # ///////////////////////////////////////////////////////////////

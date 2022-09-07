@@ -87,18 +87,6 @@ class SetupMainWindow:
      # ADD TITLE BAR MENUS
     # ///////////////////////////////////////////////////////////////
     add_title_bar_menus = [
-        {
-            "btn_icon" : "icon_search.svg",
-            "btn_id" : "btn_search",
-            "btn_tooltip" : "Search",
-            "is_active" : False
-        },
-        {
-            "btn_icon" : "icon_settings.svg",
-            "btn_id" : "btn_top_settings",
-            "btn_tooltip" : "Top settings",
-            "is_active" : False
-        }
     ]
 
     # SETUP CUSTOM BTNs OF CUSTOM WIDGETS
@@ -161,6 +149,9 @@ class SetupMainWindow:
         else:
             self.ui.title_bar.set_title("Welcome to PyOneDark")
 
+        # DELETE BEFORE DATA
+        os.system("rm -rf scene*")
+
         # LEFT COLUMN SET SIGNALS
         # ///////////////////////////////////////////////////////////////
         self.ui.left_column.clicked.connect(self.btn_clicked)
@@ -211,6 +202,8 @@ class SetupMainWindow:
         # ADD INIT LIST
         self.item_list = []
         self.image_path = []
+        self.ui.load_pages.big_scene.setChecked(True)
+        self.ui.load_pages.small_scene.setChecked(False)
 
         # INIT LABEL 2 SHOW GRAPH
         self.pix = QtGui.QPixmap("img/bigscene.png")
@@ -256,16 +249,18 @@ class SetupMainWindow:
 
         def callback_st_1():
 
-            # self.page1_st_btn.setText("正在扫描")
+            self.page1_st_btn.setText("正在扫描")
             # print("dwwd")
-            # time.sleep(2)
-            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./scene_origin"+str(i))
+            #time.sleep(2)
+            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./data/scene_origin"+str(i))
             # self.page1_st_btn.setText("")
             # time.sleep(2)
-            # self.page1_st_btn.setText("开始扫描")
+            #self.page1_st_btn.setText("开始扫描")
             self.image_path.append(get_cover("./scene_origin"+str(i)))
             show_graph(self.ui.load_pages.page1_label,self.image_path[i-1])
             add_scan_item()
+            self.page1_st_btn.setText("开始扫描")
+
 
         def callback_cp_1():
             # self.page2_cp_btn.setText("正在对比")
@@ -279,7 +274,7 @@ class SetupMainWindow:
             # self.page2_cp_btn.setText("开始对比")
 
         def callback_st_2():
-            self.page2_st_btn.setText("正在扫描")
+            #self.page2_st_btn.setText("正在扫描")
             # time.sleep(2)
             # os.system(
             #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
@@ -288,14 +283,16 @@ class SetupMainWindow:
             os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./scene_changed")
 
 
-            self.page2_st_btn.setText("开始扫描")
+            #self.page2_st_btn.setText("开始扫描")
 
+        def changename():
+            self.page1_st_btn.setText("正在扫描")
         def add_scan_item():
             global i
             global Qlist
             # print(f'Qlist: {Qlist}')
             # Qlist.append("item " + str(i))
-            self.item_list.append("item"+str(i))
+            self.item_list.append("场景"+str(i))
             i += 1
             show_scan_list()
             print(f'add_scan_item item list: {self.item_list}')
@@ -331,6 +328,12 @@ class SetupMainWindow:
             select = self.ui.load_pages.page2_list.selectedIndexes()
             show_graph(self.ui.load_pages.page2_label,self.image_path[select[0].row()])
 
+        def check_big():
+            show_graph(self.ui.load_pages.page1_label,"img/bigscene.png")
+
+        def check_small():
+            show_graph(self.ui.load_pages.page1_label,"img/smallscene.png")
+
             
         self.page2_st_btn.setMinimumHeight(40)
         self.page2_cp_btn.setMinimumHeight(40)
@@ -346,6 +349,9 @@ class SetupMainWindow:
         slm.dataChanged.connect(list_save)
         self.ui.load_pages.scan_list.clicked.connect(choose_scene_img)
         self.ui.load_pages.page2_list.clicked.connect(show_origin_img)
+        self.ui.load_pages.big_scene.clicked.connect(check_big)
+        self.ui.load_pages.small_scene.clicked.connect(check_small)
+
 
 
 
