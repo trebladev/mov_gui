@@ -23,6 +23,7 @@ from tools.findimg import get_cover
 import sys
 import os
 import time
+from threading import Thread
 
 i = 1
 Qlist = []
@@ -196,6 +197,11 @@ class SetupMainWindow:
         # ADD INIT FUNCTION
         # ///////////////////////////////////////////////////////////////
 
+        # INIT FILE
+        os.system("rm process_rate.txt")
+        os.system("touch process_rate.txt")
+        os.system("echo '0' > process_rate.txt")
+
         # SET PROGRESS
         self.ui.load_pages.progressBar.setVisible(False)
         self.ui.load_pages.progressBar.setValue(0)
@@ -245,6 +251,20 @@ class SetupMainWindow:
             bg_color_pressed=self.themes["app_color"]["dark_four"],
         )
 
+        def GetProcessRate(filename):
+            while(1):
+                if os.path.exists(filename):
+                    with open(filename) as f:
+                        process_rate = int(f.read())
+                        print("process rate:",process_rate)
+                        # bar.setValue(process_rate)
+                        self.ui.load_pages.progressBar.setValue(process_rate)
+                    # os.remove(filename)
+                    if process_rate >= 100:
+                        self.ui.load_pages.progressBar.setVisible(False)
+                        break
+                time.sleep(0.1)
+
         def callback_st_1():
 
             # self.page1_st_btn.setText("正在扫描")
@@ -258,16 +278,50 @@ class SetupMainWindow:
             show_graph(self.ui.load_pages.page1_label,self.image_path[i-1])
             add_scan_item()
 
+        def initprogressbar():
+            progress = QProgressDialog(self)
+            progress.setWindowTitle("正在处理")
+            progress.setWindowModality(Qt.WindowModal)
+            progress.setRange(0,100)
+            progress.setValue(0)
+            progress.setMinimumDuration(10)
+            progress.setCancelButton(None)
+
         def callback_cp_1():
             # self.page2_cp_btn.setText("正在对比")
+            # INIT PROGRESS BAR WINDOW
+
+            # progress = QProgressDialog(self)
+            # progress.setWindowTitle("正在处理")
+            # progress.setWindowModality(Qt.WindowModal)
+            # progress.setRange(0,100)
+            # progress.setValue(0)
+            # progress.setMinimumDuration(10)
+            # progress.show()
+
+
+            # # # progress.setCancelButton(None)
+            # #
+
+            os.system("echo '0' > process_rate.txt")
+            show_graph(self.ui.load_pages.page2_label,"./img/processing.png")
+            self.ui.load_pages.progressBar.setVisible(True)
             select = self.ui.load_pages.page2_list.selectedIndexes()
+            # #
+            # # # TEST FOR READ RATE
+            t1 = Thread(target=GetProcessRate,args=('./process_rate.txt',))
+            t1.start()
+            # #
+            # #
             if(not select):
                 print("not select")
                 msg_box = QMessageBox(QMessageBox.Critical, 'ERROR', 'no scene was selected')
                 msg_box.exec_()
             else:
-                os.system("./moving_object_detection/movable_object_detection -c ./moving_object_detection/config.json -np /home/iipl/PyOneDark_Qt_Widgets_Modern_GUI/scene_changed/mesh.obj -op /home/iipl/PyOneDark_Qt_Widgets_Modern_GUI/scene_origin"+str(select[0].row()+1)+"/mesh.obj")
+                os.system("./moving_object_detection/movable_object_detection -c ./moving_object_detection/config.json -np /home/xuan/ws_test/PyOneDark_Qt_Widgets_Modern_GUI/scene_changed/mesh.obj -op /home/xuan/ws_test/PyOneDark_Qt_Widgets_Modern_GUI/scene_origin"+str(select[0].row()+1)+"/mesh.obj")
+
             # self.page2_cp_btn.setText("开始对比")
+            show_origin_img()
 
         def callback_st_2():
             self.page2_st_btn.setText("正在扫描")
@@ -286,7 +340,7 @@ class SetupMainWindow:
             global Qlist
             # print(f'Qlist: {Qlist}')
             # Qlist.append("item " + str(i))
-            self.item_list.append("item"+str(i))
+            self.item_list.append("场景"+str(i))
             i += 1
             show_scan_list()
             print(f'add_scan_item item list: {self.item_list}')
