@@ -1,0 +1,138 @@
+{
+  "reconstruction": {
+    "exe": "./FastFusion_obec_show/FastFusionV2",
+    "param": "./FastFusion_obec_show/Files/Azurekinect/calib.txt",
+    "first_out":  "output_old",
+    "second_out": "output_new"
+  },
+//  "old_path": "/home/iipl/PyOneDark_Qt_Widgets_Modern_GUI/scene_origin1/mesh.obj",
+//  "new_path": "/home/iipl/PyOneDark_Qt_Widgets_Modern_GUI/scene_changed/mesh.obj",
+  "old_path": "/home/orz/Downloads/output_22_9_37.obj",
+  "new_path": "/home/orz/Downloads/output_22_7_28.obj",
+  "adapt_adjust_config": false,
+  "old_tag": "OLD",
+  "new_tag": "NEW",
+  "show_mesh": false,    // 场景2是否要加载并显示mesh
+  "show_diff": true,
+  "threads": 8,
+  "downsample": {
+    "registration": 0.015,
+    "calculate": 0.01
+  },
+  "normal": {
+    "search": 10
+  },
+  "registration": {
+    "keypoint": {
+      "type": "Harris",
+      "SIFT": {"mini_contrast": 2.0},  // 最小对比度
+      "Harris": {"search_radius": 0.02},
+      "curv_threshold": 0.08
+    },
+    "feature": {
+      "FPFH": {"search_radius": 0.2}
+    },
+    "ISCIA": {
+      "nr_sample": 20,
+      "k": 6
+    },
+    "TEASERPP": {
+      "noise_bound": 0.08,
+      "cbar2": 1,
+      "estimate_scaling": true,
+      "rotation_max_iterations": 100,
+      "rotation_gnc_factor": 1.4,
+      "rotation_cost_threshold": 0.000001
+    },
+    "ICP_type": "ICPwithNormal",    // ICPwithNormal，ICP
+    "ICP": {
+      "TransformationEpsilon": 1e-10,
+      "MaxCorrespondenceDistance": 1,
+//      "EuclideanFitnessEpsilon": 0.0005,
+      "MaximumIterations": 35,
+      "UseReciprocalCorrespondences": true
+    },
+    "RMSE_calculate": true,
+    "RMSE_reciprocal": true,
+    "ICP_time_threshold": 20,
+    "view_fine_results": false    // 是否显示配准结果
+  },
+  "diff_alpha": 75,        // 差分点云的透明度
+  "filter": {
+    "neighbor_num": 50,
+    "alpha": 1.0
+  },
+  "plane_seg": {
+    "normal_distance_weight": 0.05,
+    "max_iterations": 100,
+    "cluster_distance": 0.03, // 聚类的距离（单位m），稍微大一点可以去除凹凸不平的平面，但是不能太大否则平面可能会歪
+    "min_num": 10000,          // 单个平面中三维点的最少数量
+    "fail_num": 5             // 连续n次检测到的平面点数少于阈值，则停止检测
+  },
+  "object_seg": {
+    "cluster_distance": 0.025,   // 欧式聚类的距离（单位m）,>cluster_distance
+    "min_cluster_size": 300,   // 单个物体中三维点的最少数量
+    "max_cluster_size": 50000,  // 单个物体中三维点的最多数量，1m*1m*1m的立方体，在下采样为0.01m的情况下总共点数6万个
+    "plane_distance": 0.025,    // 物体跟平面最近距离的阈值，>cluster_distance
+    "object_judge": {           // 判断物体
+      "min_distance": 0.00,     // 如果有点距离质心太小，则可能只噪声，
+      "bin_num": 406,
+      "bin_proportion": 1.0,
+      "upsample": {
+        "ON": false,
+        "search_radius": 0.01,
+        "sampling_radius": 0.01,
+        "step_size": 0.005
+      },
+      "ball": {
+        "min_distance": 0.01,
+        "distance_threshold": 0.5,
+        "factor_num": 0.5
+//        "radius": 0.01
+      },
+      "threshold_num": 5
+    }
+  },
+  "diff_distance": 0.0004,       // 单位是m^2，0.0004=0.02*0.02
+  "select_candidate": {
+    "cluster_distance": 0.01,   // 欧式聚类的距离（单位m）
+    "min_cluster_size": 1,   // 单个物体中三维点的最少数量
+    "max_cluster_size": 10000  // 单个物体中三维点的最多数量
+  },
+  "register_objects": {
+    "normal_search_range": 10,
+    "curvature_search_range": 10,
+    "keypoint": {
+      "type": "Harris",
+      "SIFT": {"mini_contrast": 2.0},  // 最小对比度
+      "Harris": {"search_radius": 0.02},
+      "curv_threshold": 0.08
+    },
+    "feature": {
+      "FPFH": {"search_radius": 0.2}
+    },
+    "TEASERPP": {
+      "noise_bound": 0.08,
+      "cbar2": 1,
+      "estimate_scaling": true,
+      "rotation_max_iterations": 100,
+      "rotation_gnc_factor": 1.4,
+      "rotation_cost_threshold": 0.000001
+    },
+    "ICP_type": "ICP",    // ICPwithNormal，ICP
+    "ICP": {
+      "TransformationEpsilon": 1e-10,
+      "MaxCorrespondenceDistance": 10,
+      "MaximumIterations": 500,
+      "UseReciprocalCorrespondences": false   // 物体配准不能要双向的correspondence
+    },
+    "ISCIA": {
+      "nr_sample": 20,
+      "k": 6
+    },
+    "RMSE_reciprocal": false,
+    "RMSE_threshold": 0.012,    // 根据多个实验获得，误匹配RMSE最小为0.15，正确匹配RMSE最大为0.009
+    "ICP_time_threshold": 2,
+    "transform_by_center": true   // 物体匹配的变换是否以第二个场景中物体的中心为原点
+  }
+}

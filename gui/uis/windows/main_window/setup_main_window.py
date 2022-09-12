@@ -303,7 +303,7 @@ class SetupMainWindow:
             # #
             if(not select):
                 print("not select")
-                msg_box = QMessageBox(QMessageBox.Critical, 'ERROR', 'no scene was selected')
+                msg_box = QMessageBox(QMessageBox.Critical, '错误', '没有场景被选中，请选择场景')
                 msg_box.exec_()
             else:
 
