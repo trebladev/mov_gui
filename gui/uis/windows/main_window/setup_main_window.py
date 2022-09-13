@@ -270,7 +270,7 @@ class SetupMainWindow:
             # self.page1_st_btn.setText("正在扫描")
             # print("dwwd")
             # time.sleep(2)
-            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./scene_origin"+str(i))
+            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt  --save_freq 60 -op ./data/scene_origin"+str(i))
             # self.page1_st_btn.setText("")
             # time.sleep(2)
             # self.page1_st_btn.setText("开始扫描")
@@ -324,8 +324,14 @@ class SetupMainWindow:
                 # # # TEST FOR READ RATE
                 t0 = Thread(target=GetProcessRate,args=('./process_rate.txt',progress))
                 t0.start()
-                os.system("./moving_object_detection/movable_object_detection -c ./moving_object_detection/config.json -np /home/xuan/ws_test/PyOneDark_Qt_Widgets_Modern_GUI/scene_changed/mesh.obj -op /home/xuan/ws_test/PyOneDark_Qt_Widgets_Modern_GUI/scene_origin"+str(select[0].row()+1)+"/mesh.obj &")
 
+                new_dir = "./scene_changed"
+                old_dir = "./scene_origin" + str(select[0].row() + 1)
+                os.system("./moving_object_detection/movable_object_detection "
+                          "-c ./moving_object_detection/config.json --show_mesh"
+                          "-np "+new_dir+"/mesh.obj "
+                          "-op "+old_dir+"/mesh.obj "
+                          "-cp "+old_dir+"/camera_pose.txt &")
             # self.page2_cp_btn.setText("开始对比")
             # show_origin_img()
 
@@ -336,7 +342,7 @@ class SetupMainWindow:
             #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
             # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
             # ")
-            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./scene_changed")
+            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./scene_changed --save_freq 60")
 
 
             self.page2_st_btn.setText("开始扫描")
