@@ -1,8 +1,8 @@
 {
-    "app_name": "PyOneDark - Modern GUI",
+    "app_name": "位姿分析仪",
     "version" : "v1.0.0",
-    "copyright" : "By: Wanderson M. Pimenta",
-    "year" : 2021,
+    "copyright" : "By: 公安部第一研究所",
+    "year" : 2022,
     "theme_name" : "default",
     "custom_title_bar": true,
     "startup_size": [

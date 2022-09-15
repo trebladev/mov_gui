@@ -211,7 +211,7 @@ class SetupMainWindow:
 
 
         # INIT LABEL 2 SHOW GRAPH
-        self.pix = QtGui.QPixmap("img/bigscene.png")
+        self.pix = QtGui.QPixmap("img/noimage.png")
         size = self.pix.size()
         self.ui.load_pages.page1_label.setGeometry(0, 0, 584, 574)
         self.ui.load_pages.page1_label.setScaledContents(True)
@@ -282,6 +282,13 @@ class SetupMainWindow:
                 msg_box = QMessageBox(QMessageBox.Critical, 'ERROR', '扫描保存失败，请重新扫描')
                 msg_box.exec_()
 
+        def bigsceneinfo():
+            msg_box = QMessageBox(QMessageBox.Information, '提示', '大场景范围在15-30平方米')
+            msg_box.exec_()
+
+        def smallsceneinfo():
+            msg_box = QMessageBox(QMessageBox.Information, '提示', '小场景范围在0-15平方米')
+            msg_box.exec_()
 
         def initprogressbar():
             progress = QProgressDialog(self)
@@ -336,7 +343,7 @@ class SetupMainWindow:
             # show_origin_img()
 
         def callback_st_2():
-            self.page2_st_btn.setText("正在扫描")
+            # self.page2_st_btn.setText("正在扫描")
             # time.sleep(2)
             # os.system(
             #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
@@ -406,6 +413,8 @@ class SetupMainWindow:
         self.page1_st_btn.clicked.connect(callback_st_1)
         self.page2_cp_btn.clicked.connect(callback_cp_1)
         self.page2_st_btn.clicked.connect(callback_st_2)
+        self.ui.load_pages.big_scene.clicked.connect(bigsceneinfo)
+        self.ui.load_pages.small_scene.clicked.connect(smallsceneinfo)
         slm.dataChanged.connect(list_save)
         self.ui.load_pages.scan_list.clicked.connect(choose_scene_img)
         self.ui.load_pages.page2_list.clicked.connect(show_origin_img)
