@@ -256,7 +256,7 @@ class SetupMainWindow:
                 if os.path.exists(filename):
                     with open(filename) as f:
                         process_rate = int(f.read())
-                        print("process rate:",process_rate)
+                        # print("process rate:",process_rate)
                         bar.setValue(process_rate)
                         # self.ui.load_pages.progressBar.setValue(process_rate)
                     # os.remove(filename)
@@ -270,12 +270,12 @@ class SetupMainWindow:
             # self.page1_st_btn.setText("正在扫描")
             # print("dwwd")
             # time.sleep(2)
-            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt  --save_freq 60 -op ./data/scene_origin"+str(i))
+            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt  --save_freq 30 -op ./data/scene_origin"+str(i))
             # self.page1_st_btn.setText("")
             # time.sleep(2)
             # self.page1_st_btn.setText("开始扫描")
-            if(os.path.isfile("./scene_origin"+str(i)+"/mesh.obj")):
-                self.image_path.append(get_cover("./scene_origin"+str(i)))
+            if(os.path.isfile("./data/scene_origin"+str(i)+"/mesh.obj")):
+                self.image_path.append(get_cover("./data/scene_origin"+str(i)))
                 show_graph(self.ui.load_pages.page1_label,self.image_path[i-1])
                 add_scan_item()
             else:
@@ -325,10 +325,10 @@ class SetupMainWindow:
                 t0 = Thread(target=GetProcessRate,args=('./process_rate.txt',progress))
                 t0.start()
 
-                new_dir = "./scene_changed"
-                old_dir = "./scene_origin" + str(select[0].row() + 1)
+                new_dir = "./data/scene_changed"
+                old_dir = "./data/scene_origin" + str(select[0].row() + 1)
                 os.system("./moving_object_detection/movable_object_detection "
-                          "-c ./moving_object_detection/config.json --show_mesh"
+                          "-c ./moving_object_detection/config.json "
                           "-np "+new_dir+"/mesh.obj "
                           "-op "+old_dir+"/mesh.obj "
                           "-cp "+old_dir+"/camera_pose.txt &")
@@ -342,10 +342,16 @@ class SetupMainWindow:
             #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
             # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
             # ")
-            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./scene_changed --save_freq 60")
+            os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./data/scene_changed --save_freq 30")
+            if(os.path.isfile("./data/scene_changed/mesh.obj")):
+                msg_box = QMessageBox(QMessageBox.Information, '成功', '对比场景已经扫描成功')
+                msg_box.exec_()
+            else:
+                msg_box = QMessageBox(QMessageBox.Critical, '错误', '对比场景扫描失败,请重新扫描')
+                msg_box.exec_()
 
 
-            self.page2_st_btn.setText("开始扫描")
+            # self.page2_st_btn.setText("开始扫描")
 
         def add_scan_item():
             global i

@@ -72,7 +72,7 @@ class MainWindow(QMainWindow):
         # CHOOSE WEATHER DELETE HISTORY DATA
         reply = QMessageBox.question(self,"选择","是否保留历史数据？",QMessageBox.Yes|QMessageBox.No,QMessageBox.No)
         if reply == QMessageBox.No:
-            os.system("rm -rf scene*")
+            os.system("rm -rf ./data/scene*")
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked
     # Check funtion by object name / btn_id
