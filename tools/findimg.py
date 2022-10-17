@@ -1,6 +1,7 @@
 import glob
 import os
 import cv2 as cv
+import numpy as np
 
 
 def get_cover(input_dir, color_format="ppm", depth_format="pgm"):
@@ -32,7 +33,15 @@ def get_cover(input_dir, color_format="ppm", depth_format="pgm"):
     max_idx = weight.index(max(weight))
     # 记录对应的camera pose到txt中
     with open(os.path.join(input_dir, "camera_pose.txt"), "w") as f:
-        f.write(camera_poses[max_idx])
+        if(max_idx > len(camera_poses)):
+            max_idx=len(camera_poses)
+            print(max_idx)
+            print("\n")
+            print(len(camera_poses))
+        if(len(camera_poses) == 0):
+            f.write(np.array_str(np.eye(4)))
+        else:
+            f.write(camera_poses[max_idx])
 
     return color_paths[max_idx]
 

@@ -24,6 +24,7 @@ import sys
 import os
 import time
 from threading import Thread
+#import threading
 
 i = 1
 Qlist = []
@@ -70,16 +71,16 @@ class SetupMainWindow:
         {
             "btn_icon" : "icon_home.svg",
             "btn_id" : "btn_home",
-            "btn_text" : "Home",
-            "btn_tooltip" : "Home page",
+            "btn_text" : "初始场景扫描",
+            "btn_tooltip" : "初始场景",
             "show_top" : True,
             "is_active" : True
         },
         {
             "btn_icon": "icon_file.svg",
             "btn_id": "open_page_2",
-            "btn_text": "open_page_2",
-            "btn_tooltip": "open_page_2",
+            "btn_text": "对比场景扫描",
+            "btn_tooltip": "对比场景",
             "show_top": True,
             "is_active": False
         }
@@ -261,8 +262,10 @@ class SetupMainWindow:
                         # self.ui.load_pages.progressBar.setValue(process_rate)
                     # os.remove(filename)
                     if process_rate >= 100:
-                        self.ui.load_pages.progressBar.setVisible(False)
+                        # print("process rate")
                         break
+                        # self.ui.load_pages.progressBar.setVisible(False)
+
                 time.sleep(0.1)
 
         def callback_st_1():
@@ -274,7 +277,7 @@ class SetupMainWindow:
             # self.page1_st_btn.setText("")
             # time.sleep(2)
             # self.page1_st_btn.setText("开始扫描")
-            if(os.path.isfile("./data/scene_origin"+str(i)+"/mesh.obj")):
+            if(os.path.isfile("./data/scene_origin"+str(i)+"/mesh.obj") and len(os.listdir("./data/scene_origin"+str(i))) >= 10):
                 self.image_path.append(get_cover("./data/scene_origin"+str(i)))
                 show_graph(self.ui.load_pages.page1_label,self.image_path[i-1])
                 add_scan_item()
@@ -350,7 +353,7 @@ class SetupMainWindow:
             # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
             # ")
             os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./data/scene_changed --save_freq 30")
-            if(os.path.isfile("./data/scene_changed/mesh.obj")):
+            if(os.path.isfile("./data/scene_changed/mesh.obj") and len(os.listdir("./data/scene_changed")) >= 10):
                 msg_box = QMessageBox(QMessageBox.Information, '成功', '对比场景已经扫描成功')
                 msg_box.exec_()
             else:

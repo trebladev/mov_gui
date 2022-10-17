@@ -93,7 +93,7 @@
       "threshold_num": 5
     }
   },
-  "diff_distance": 0.0004,       // 单位是m^2，0.0004=0.02*0.02
+  "diff_distance": 0.0010,       // 单位是m^2，0.0004=0.02*0.02
   "select_candidate": {
     "cluster_distance": 0.01,   // 欧式聚类的距离（单位m）
     "min_cluster_size": 1,   // 单个物体中三维点的最少数量
