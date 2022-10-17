@@ -354,7 +354,7 @@ class SetupMainWindow:
             # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
             # ")
             global changed_scene_num
-            if(os.listdir("./data/scene_changed")):
+            if(os.path.exists("./data/scene_changed")):
                 os.system("mv ./data/scene_changed ./data/scene_changed"+str(changed_scene_num))
                 changed_scene_num += 1
 
