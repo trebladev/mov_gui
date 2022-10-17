@@ -20,6 +20,8 @@ from PySide6 import QtGui
 from gui.uis.windows.main_window.functions_main_window import *
 import sys
 import os
+import time
+import datetime
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -69,10 +71,24 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         self.show()
 
+        # check history data dir is exists
+        if(not os.path.exists("./history_data")):
+            print("history data path has not exist")
+            os.system("mkdir history_data")
+
+        # Save history data
+        if(os.listdir("./data")):
+            print("have history data")
+            date_stamp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S') # get time for now
+            os.system("mv data/ history_data/data-"+date_stamp)
+            os.system("mkdir data")
+        else:
+            print("do not have history data")
+
         # CHOOSE WEATHER DELETE HISTORY DATA
-        reply = QMessageBox.question(self,"选择","是否保留历史数据？",QMessageBox.Yes|QMessageBox.No,QMessageBox.No)
-        if reply == QMessageBox.No:
-            os.system("rm -rf ./data/scene*")
+        # reply = QMessageBox.question(self,"选择","是否保留历史数据？",QMessageBox.Yes|QMessageBox.No,QMessageBox.No)
+        # if reply == QMessageBox.No:
+        #     os.system("rm -rf ./data/scene*")
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked
     # Check funtion by object name / btn_id

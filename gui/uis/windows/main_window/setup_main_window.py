@@ -27,6 +27,7 @@ from threading import Thread
 #import threading
 
 i = 1
+changed_scene_num = 1
 Qlist = []
 slm = QStringListModel()
 # IMPORT QT CORE
@@ -352,6 +353,11 @@ class SetupMainWindow:
             #     "/media/gty/hhh/CLionProjects/FastFusion_obec_show/cmake-build-release/Apps/FastFusion/FastFusionV2 /me
             # ia / gty / hhh / CLionProjects / FastFusion_obec_show / Files / Azurekinect / calib.txt
             # ")
+            global changed_scene_num
+            if(os.listdir("./data/scene_changed")):
+                os.system("mv ./data/scene_changed ./data/scene_changed"+str(changed_scene_num))
+                changed_scene_num += 1
+
             os.system("./fastfusion/FastFusionV2 -c ./fastfusion/calib.txt -op ./data/scene_changed --save_freq 30")
             if(os.path.isfile("./data/scene_changed/mesh.obj") and len(os.listdir("./data/scene_changed")) >= 10):
                 msg_box = QMessageBox(QMessageBox.Information, '成功', '对比场景已经扫描成功')
