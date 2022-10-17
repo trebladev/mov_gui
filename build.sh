@@ -6,15 +6,16 @@ pip install pyinstaller
 pyinstaller main.spec
 cp settings.json dist/main/
 
-mkdir -p dist/main/gui/themes
+mkdir -p dist/main/gui
 cp -r gui/themes/ dist/main/gui/themes
-cp -r gui/images dist/main/gui/img
+cp -r gui/images dist/main/gui/images
 cp -r img dist/main/
 
 mkdir dist/main/gui/fastfusion
 mkdir dist/main/data
 mkdir dist/main/moving_object_detection
 mkdir dist/main/history_data
+touch dist/main/moving_object_detection/process_rate.txt
 
 echo "#########################################################"
 echo "#########################################################"
