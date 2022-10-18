@@ -75,6 +75,8 @@ class MainWindow(QMainWindow):
         if(not os.path.exists("./history_data")):
             print("history data path has not exist")
             os.system("mkdir history_data")
+        else:
+            os.system("ls -t history_data|sort -r|sed -n '11,$p'|xargs -I {} rm -rf history_data/{}")
 
         # Save history data
         if(os.listdir("./data")):
